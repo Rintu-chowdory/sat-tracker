@@ -1,0 +1,354 @@
+:root {
+  --bg: #04070f;
+  --panel: rgba(10, 17, 30, 0.72);
+  --border: rgba(120, 160, 220, 0.18);
+  --text: #e8eefb;
+  --muted: #8296b4;
+  --accent: #5ee9ff;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  position: fixed;
+  inset: 0;
+}
+
+canvas {
+  display: block;
+}
+
+.hud {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: auto 1fr auto;
+  gap: 14px;
+  font-size: 13px;
+}
+
+.panel {
+  pointer-events: auto;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+}
+
+/* ---------- brand ---------- */
+.brand {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 15px;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+}
+
+.brand p {
+  margin: 3px 0 0;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+
+.live-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 0 rgba(94, 233, 255, 0.7);
+  animation: pulse 2.2s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(94, 233, 255, 0.55); }
+  70% { box-shadow: 0 0 0 12px rgba(94, 233, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(94, 233, 255, 0); }
+}
+
+/* ---------- ISS card ---------- */
+.iss {
+  grid-column: 3;
+  grid-row: 1;
+  width: 288px;
+}
+
+.iss-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.iss h2 {
+  margin: 0;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.tag {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid rgba(94, 233, 255, 0.35);
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 14px;
+}
+
+.grid label {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 2px;
+}
+
+.grid strong {
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 15px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.observer {
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.muted {
+  color: var(--muted);
+  margin: 0;
+}
+
+/* ---------- layers ---------- */
+.groups {
+  grid-column: 1;
+  grid-row: 3;
+  align-self: end;
+  width: 236px;
+}
+
+.groups h3 {
+  margin: 0 0 10px;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.layer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 7px 9px;
+  margin-bottom: 4px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.layer:hover {
+  background: rgba(120, 160, 220, 0.08);
+  color: var(--text);
+}
+
+.layer.on {
+  color: var(--text);
+  background: rgba(120, 160, 220, 0.1);
+  border-color: var(--border);
+}
+
+.layer:disabled {
+  opacity: 0.55;
+  cursor: progress;
+}
+
+.swatch {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  box-shadow: 0 0 8px currentColor;
+}
+
+.layer .label {
+  flex: 1;
+  text-align: left;
+}
+
+.layer .count {
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+.error {
+  margin: 8px 0 0;
+  font-size: 11px;
+  color: #ff8f8f;
+}
+
+/* ---------- clock bar ---------- */
+.clockbar {
+  grid-column: 2 / 4;
+  grid-row: 3;
+  justify-self: end;
+  align-self: end;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 10px 16px;
+}
+
+.clock {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+.utc {
+  font-size: 17px;
+  letter-spacing: 0.06em;
+  font-variant-numeric: tabular-nums;
+}
+
+.tz {
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.12em;
+}
+
+.controls {
+  display: flex;
+  gap: 4px;
+}
+
+.controls button {
+  min-width: 34px;
+  padding: 5px 8px;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  background: rgba(120, 160, 220, 0.06);
+  color: var(--muted);
+  font-size: 11px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+}
+
+.controls button:hover {
+  color: var(--text);
+}
+
+.controls button.on {
+  color: #041019;
+  background: var(--accent);
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+.rendered {
+  font-size: 11px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.hint {
+  position: absolute;
+  left: 50%;
+  bottom: 26px;
+  transform: translateX(-50%);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: rgba(130, 150, 180, 0.65);
+}
+
+@media (max-width: 860px) {
+  .hud {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr auto;
+    padding: 12px;
+  }
+  .iss {
+    grid-column: 1;
+    grid-row: 2;
+    width: 100%;
+  }
+  .groups {
+    grid-column: 1;
+    grid-row: 3;
+    width: 100%;
+  }
+  .clockbar {
+    grid-column: 1;
+    grid-row: 4;
+    justify-self: stretch;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .hint {
+    display: none;
+  }
+}
